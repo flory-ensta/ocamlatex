@@ -50,10 +50,10 @@
 let newline = ('\010' | '\013' | "\013\010")
 
 let digits = ['0'-'9']+
-let character = ['A'-'Z' 'a'-'z' ' ']
-let text = ['A'-'Z' 'a'-'z' '0'-'9' ' ' ':' ',' '.' '/']+
+let characters = ['A'-'Z' 'a'-'z']+
+let text = ['A'-'Z' 'a'-'z' '0'-'9' ' ' ':' ',' '.' '/' '-' '\'']+
 let code = ['A'-'Z' 'a'-'z' '0'-'9' ' ' ':' ',' '.' '/' '&' '~' '"' '(' ')' '-' '|' '*' '=' '/' '-' '+' ';' '<' '>' '$' '!']+
-let link = ['A'-'Z' 'a'-'z' '0'-'9' ':' '.' '/']+
+let link = ['A'-'Z' 'a'-'z' '0'-'9' ':' '.' '/' '?' '&' '=']+
 let words = ['A'-'Z' 'a'-'z' ' ']+
 let name = ['A'-'Z' 'a'-'z' ' ' '-']+
 let datetype = ['A'-'Z' 'a'-'z' ' ' '0'-'9' ',' '/']+
@@ -62,14 +62,13 @@ let title = "# "
 let subTitle = "## "
 let subTitle2 = "### "
 let subTitle3 = "#### "
-let author = "author:"
-let date = "date:"
+let author = "_author:"
+let date = "_date:"
 
 
 rule token = parse 
     [' ' '\t']     { token lexbuf }
   | [ '\n' ]  { EOL }
-  | '['   { LBRA }
   |  '>' { quote lexbuf }
   |  title { title lexbuf }
   |  subTitle { subTitle lexbuf } 
@@ -86,10 +85,15 @@ rule token = parse
   |  '(' (link as url ) ')' { URL(url) }
   |  "```" { reset_string_buffer();
             in_string lexbuf;
-            BLOCKCODE (get_stored_string()) } 
+            BLOCKCODE (get_stored_string()) }
+  |  "```" (characters as lang) { reset_string_buffer();
+            in_string lexbuf;
+            LANG_CODE([lang; get_stored_string()]) }
   | "---" { HLINE }
+  | "___" { MAKETITLE }
   | eof   { raise Eof }
-  | _   { token lexbuf }
+  | text as txt { STRING(txt) }
+  | _ { token lexbuf }
 
 and title = parse
     text as txt { TITLE(txt)}

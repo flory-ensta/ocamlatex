@@ -49,11 +49,29 @@ node_modules/
 # Ignore all local history of files
 .history
 
+### LaTeX ###
+## Core latex/pdflatex auxiliary files:
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+.*.lb
+*.pdf
+*.tex
 # End of https://www.gitignore.io/api/ocaml,visualstudiocode
 
 test/
-
 lexer.ml 
 ocamlatex
 parser.ml
 parser.mli
+
+!showcase.tex
+!showcase.pdf

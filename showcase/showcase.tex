@@ -1,0 +1,181 @@
+\documentclass[11pt, a4paper]{article}
+
+\usepackage[french,english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{csquotes}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+\usepackage{hyperref}
+\usepackage{XCharter}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{
+  top=2cm,
+  bottom=2cm,
+  left=2.2cm,
+  right=2.2cm,
+  includehead,
+}
+\setlength{\parindent}{15pt}
+\usepackage{setspace}
+\linespread{1.5}
+\title{Title}
+\author{Pierre-Elisee Flory}
+\date{\small \today}
+\title{OcamLaTEX exemple de presentation}
+\author{Pierre-Elisee FLORY}
+\date{\small Jeudi 14 mai 2020}
+\begin{document}
+\maketitle
+\newpage
+
+\section{Introduction}
+
+Ce document a pour but de montrer les capacites du programme OCamLaTEX qui permet de produir des documents LaTEX a partir de fichiers Markdown, un langage de balisage leger qui permet de creer un fichier structure rapidement.
+
+Il est donc presente dans ce document l'ensemble des fonctionnalites prises en compte par OCamLatex.
+
+En Markdown, les elements sont s
+par
+s par un saut de ligne 
+2 si on veut effectivement produire un saut de ligne dans le fichier LaTEX
+. Le non respect de cette regle peut produire un fichier source LaTEX comportant des erreurs mais comilant correctement.
+
+\section{Fonctionnalites}
+
+\subsection{Texte}
+
+\subsubsection{Formattage des mots}
+
+OCamLaTEX prend en compte les zones de textes 
+\textbf{accentuees en gras}
+ ou bien 
+\textit{en italique}
+.
+
+\subsubsection{Citation}
+
+Le texte suivant est une citation:
+
+\begin{displayquote}
+ Ceci est une citation
+\end{displayquote}
+
+\subsubsection{Code}
+
+\begin{lstlisting}
+On peut integrer une ligne de code comme ceci
+\end{lstlisting}
+
+\begin{lstlisting}
+Ou bien on peut definir un bloc de code
+Et ecrire du code sur plusieurs lignes
+$ echo "Hello World !
+\end{lstlisting}
+
+Et meme utiliser de la coloration syntaxique propre au langage:
+
+\begin{lstlisting}[language=c]
+#include <stdio.h>
+
+void checkPrimeNumber();
+
+int main()
+{
+    checkPrimeNumber();    // argument is not passed
+    return 0;
+}
+
+// return type is void meaning doesn't return any value
+void checkPrimeNumber()
+{
+    int n, i, flag = 0;
+
+    printf("Enter a positive integer: ");
+    scanf("%d",&n);
+
+    for(i=2; i <= n/2; ++i)
+    {
+        if(n%i == 0)
+        {
+            flag = 1;
+        }
+    }
+    if (flag == 1)
+        printf("%d is not a prime number.", n);
+    else
+        printf("%d is a prime number.", n);
+}
+\end{lstlisting}
+
+\subsubsection{Listes}
+
+On peut creer tres rapidement une lsite ainsi:
+\begin{itemize}
+\item a\item b\item c\item d\end{itemize}
+\subsection{Integration extra textuel}
+
+
+\subsubsection{Liens}
+
+On peut ajouter un 
+\href{https://www.youtube.com/watch?v=dQw4w9WgXcQ}{lien hypertexte}
+ comme ca
+
+\subsubsection{Images}
+
+On peut egalement integrer une image au document comme ca: 
+\begin{figure}[h]
+\centering
+\includegraphics[width=8cm,height=10cm,keepaspectratio]{logo.jpg}
+\caption{Ensta logo}
+\end{figure}
+
+\subsection{Extra}
+
+\subsubsection{Ligne separatrice horizontale}
+
+Du texte...
+
+\noindent\rule{\textwidth}{1pt}
+
+Cette ligne est separee de la precedente par une ligne horizontale 
+
+\section{Conclusion}
+
+Ceci est un document de presentation du fonctionnement d'OCamLaTEX. Si vous voulez le mettre en pratique, vous pouvez le faire facilement:
+
+\begin{lstlisting}[language=bash]
+$ cd src/
+$ make
+$ ocamlrun ocamlatex source_file.md > output_file.tex
+\end{lstlisting}
+\end{document}
